@@ -1,44 +1,13 @@
+import config from './config.js';
+
 document.addEventListener('DOMContentLoaded', () => {
     const terms = document.querySelectorAll('.wiki-term'); // Select all terms
     const sidebar = document.getElementById('sidebar'); // Get the sidebar element
-
-    // Function to open the sidebar and load content
-    const openSidebar = (entryId) => {
-        const entryContent = {
-            entry1: '<h3>Magic</h3><p>Magic is a powerful force in the universe...</p>',
-            entry2: '<h3>Dragons</h3><p>Dragons are mythical creatures that breathe fire...</p>'
-        };
-        sidebar.innerHTML = entryContent[entryId];
-        sidebar.classList.add('open');
-    };
-
-    // Event listener for closing the sidebar when clicking outside
-    document.addEventListener('click', (event) => {
-        if (!sidebar.contains(event.target) && !event.target.classList.contains('wiki-term')) {
-            sidebar.classList.remove('open');
-        }
-    });
-
-    // Add click event listeners to each term
-    terms.forEach(term => {
-        term.addEventListener('click', () => {
-            const entryId = term.getAttribute('data-entry');
-            openSidebar(entryId);
-        });
-    });
-});
-document.addEventListener('DOMContentLoaded', () => {
-    const terms = document.querySelectorAll('.wiki-term'); // Select all terms
-    const sidebar = document.getElementById('sidebar'); // Get the sidebar element
-
-    // Airtable API credentials
-    const airtableBaseURL = 'https://api.airtable.com/v0/appyz0QNu3GzhgJ4L/CHARACTERS';
-    const airtableAPIKey = 'patvEmrk5qMtFVQt0.df87b64f035800932be432bf2d48ab2a68d351324b89c1a74bd03e3ca7609779'
 
     // Function to open the sidebar and load content from Airtable
     const openSidebar = (entryName) => {
-        axios.get(`${airtableBaseURL}?filterByFormula={Name}="${entryName}"`, {
-            headers: { Authorization: `Bearer ${airtableAPIKey}` }
+        axios.get(`${config.airtableBaseURL}?filterByFormula={Name}="${entryName}"`, {
+            headers: { Authorization: `Bearer ${config.airtableAPIKey}` }
         })
         .then(response => {
             const records = response.data.records;
@@ -54,20 +23,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 sidebar.innerHTML = `<p>No entry found for "${entryName}"</p>`;
             }
         })
-        .catch(error => console.error('Error fetching entry:', error));
+        .catch(error => {
+            console.error('Error fetching data from Airtable:', error);
+            sidebar.innerHTML = `<p>Error fetching data. Please try again later.</p>`;
+        });
     };
 
-    // Event listener for closing the sidebar when clicking outside
-    document.addEventListener('click', (event) => {
-        if (!sidebar.contains(event.target) && !event.target.classList.contains('wiki-term')) {
-            sidebar.classList.remove('open');
-        }
-    });
-
-    // Add click event listeners to each term
+    // Add event listeners to each term
     terms.forEach(term => {
         term.addEventListener('click', () => {
-            const entryName = term.getAttribute('data-entry');
+            const entryName = term.textContent.trim();
             openSidebar(entryName);
         });
     });
