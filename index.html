@@ -1,29 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Novel App</title>
+    <title>Crookshanks & Cheshire</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="favicon.ico">
-    <!-- Link to your CSS -->
 </head>
 <body>
+
     <header>
-        <h1>Crookshanks and Cheshire</h1>
+        Crookshanks and Cheshire
     </header>
-    <main>
-        <div class="content">
-            <h2>Chapter 1</h2>
-            <p id="chapter-text">
-                This is the first chapter of my novel with some interactive terms like <span class="wiki-term" data-entry="entry1">magic</span> and <span class="wiki-term" data-entry="entry2">dragons</span>.
-            </p>
+
+    <div class="container">
+        <!-- Sidebar for chapters -->
+        <div class="sidebar">
+            <ul>
+                <li class="selected">Ch. 1</li>
+                <li>Ch. 2</li>
+                <li>Ch. 3</li>
+            </ul>
         </div>
-        <aside id="sidebar">
-            <!-- Sidebar content will appear here when a term is clicked -->
-        </aside>
-    </main>
-    <script src="script.js"></script>
+
+        <!-- Main content (chapter details) -->
+        <div class="main-content">
+            <h2>Chapter 1</h2>
+            <p>This is the first chapter of my novel with some interactive terms like magic and dragons.</p>
+        </div>
+    </div>
+
 </body>
 </html>
